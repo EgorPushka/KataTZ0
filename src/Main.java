@@ -4,39 +4,40 @@ class Main {
 
     public static void main(String[] args) throws Exception{
         Scanner console = new Scanner(System.in);
-        System.out.println("Enter Expression:");
-        String input = console.nextLine();
-//        System.out.println(RomanEnum.valueOf("XC").ordinal());
-        System.out.println(calc(input));
+        while (true) {
+            System.out.println("Enter Expression:");
+            String input = console.nextLine();
+            if (input.equals("exit")) break;
+            System.out.println(calc(input));
+        }
     }
 
     public static String calc(String input) throws Exception{
         int x, y;
+        char operation;
         boolean isRomeNum, Correct;
-        String operator, answer;
+        String answer;
+        input = input.replaceAll(" ", "");
+        String[] inputData = input.split("[+\\-*/]");
 
-        String[] inputData = (input.trim()).split(" "); //String[] inputData = input.split("[+\\-*/]");
-        if (inputData.length != 3) throw new Exception("Incorrect Input");
-        if ((isRome(inputData[0])) && (isRome(inputData[2])))
-            {
+        if (inputData.length != 2) throw new Exception("Incorrect Input");
+        if ((isRome(inputData[0])) && (isRome(inputData[1]))) {
             x = RomanEnum.valueOf(inputData[0]).ordinal();
-            y = RomanEnum.valueOf(inputData[2]).ordinal();
-            operator = inputData[1];
+            y = RomanEnum.valueOf(inputData[1]).ordinal();
+            operation = input.charAt(inputData[0].length());
             isRomeNum = true;
-            } else if ((isArabian(inputData[0])) && (isArabian(inputData[2])))
-                {
+            } else if ((isArabian(inputData[0])) && (isArabian(inputData[1]))) {
                 x = Integer.parseInt(inputData[0]);
-                y = Integer.parseInt(inputData[2]);
-                operator = inputData[1];
+                y = Integer.parseInt(inputData[1]);
+                operation = input.charAt(inputData[0].length());
                 isRomeNum = false;
-                }
-         else {
+            } else {
             throw new Exception("Incorrect Input");
          }
 
-        Correct = ((x > 0 && x <= 10) && (y > 0 && y <= 10)) ? true : false;
+        Correct = ((x > 0 && x <= 10) && (y > 0 && y <= 10));
         if (!Correct) throw new Exception("Incorrect Input! Values must be between 1 and 10 inclusive");
-        answer = arabCalculation(x,y,operator);
+        answer = arabCalculation(x,y,operation);
 
         if (isRomeNum) {
             if (Integer.parseInt(answer) <= 0) {
@@ -67,18 +68,14 @@ class Main {
             return false;
         }
     }
-    static String arabCalculation (int a, int b, String op) throws Exception{
+    static String arabCalculation (int a, int b, char op) throws Exception{
         switch (op)
             {
-            case "+": return String.valueOf(a + b);
-            case "-": return String.valueOf(a - b);
-            case "*": return String.valueOf(a * b);
-            case "/":
-                if (b == 0) return "Devision by ZERO!";
-                else return String.valueOf(a / b);
-            default:
-//                return "Invalid Operator";
-                throw new Exception("Invalid Operator");
+            case '+': return String.valueOf(a + b);
+            case '-': return String.valueOf(a - b);
+            case '*': return String.valueOf(a * b);
+            case '/': return String.valueOf(a / b);
+            default: throw new Exception("Invalid Operator"); //return "Invalid Operator";
             }
     }
     static String arabConvertToRome (String s) {
