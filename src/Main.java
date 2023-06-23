@@ -17,8 +17,7 @@ class Main {
         char operation;
         boolean isRomeNum, Correct;
         String answer;
-        input = input.replaceAll(" ", "");
-        String[] inputData = input.split("[+\\-*/]");
+        String[] inputData = (input.replaceAll(" ", "")).split("[+\\-*/]");
 
         if (inputData.length != 2) throw new Exception("Incorrect Input");
         if ((isRome(inputData[0])) && (isRome(inputData[1]))) {
